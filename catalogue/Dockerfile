@@ -1,6 +1,8 @@
-FROM node:14
+FROM node:14.21-alpine
 
-ENV INSTANA_AUTO_PROFILE true
+RUN apk add --no-cache curl
+
+# ENV INSTANA_AUTO_PROFILE true
 
 EXPOSE 8080
 
