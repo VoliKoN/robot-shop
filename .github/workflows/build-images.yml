@@ -17,6 +17,10 @@ on:
         default: 'false'
         type: string
 
+env:
+  REGISTRY: ghcr.io
+  REPO_NAME: volikon
+
 jobs:
   build:
     name: Build and push
@@ -39,7 +43,7 @@ jobs:
         if: ${{ inputs.pushImages == 'true' }}
         uses: docker/login-action@v2
         with:
-          registry: ghcr.io
+          registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
@@ -57,9 +61,9 @@ jobs:
           file: Dockerfile
           push: ${{ inputs.pushImages == 'true' }}
           tags: |-
-            ghcr.io/${{ github.repository_owner }}/rs-${{ matrix.image }}:${{ steps.tags.outputs.version_tag }}
-            ghcr.io/${{ github.repository_owner }}/rs-${{ matrix.image }}:${{ steps.tags.outputs.version_timestamp }}
-            ghcr.io/${{ github.repository_owner }}/rs-${{ matrix.image }}:latest
+            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/rs-${{ matrix.image }}:${{ steps.tags.outputs.version_tag }}
+            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/rs-${{ matrix.image }}:${{ steps.tags.outputs.version_timestamp }}
+            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/rs-${{ matrix.image }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
       
