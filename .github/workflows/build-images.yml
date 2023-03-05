@@ -42,6 +42,12 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set image tags
+        id: tags
+        run: |
+          echo "version_tag=$(grep -oP '(?<=TAG=).*' .env)" >> $GITHUB_OUTPUT
+          echo "version_timestamp=$(date +'%s')" >> $GITHUB_OUTPUT
 
       - name: Build all platforms
         id: release
@@ -51,7 +57,9 @@ jobs:
           file: Dockerfile
           push: ${{ inputs.pushImages == 'true' }}
           tags: |-
-            ghcr.io/${{ github.repository_owner }}/rs-${{ matrix.image }}:$TAG
+            ghcr.io/${{ github.repository_owner }}/rs-${{ matrix.image }}:${{ steps.tags.outputs.version_tag }}
+            ghcr.io/${{ github.repository_owner }}/rs-${{ matrix.image }}:${{ steps.tags.outputs.version_timestamp }}
+            ghcr.io/${{ github.repository_owner }}/rs-${{ matrix.image }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
       
