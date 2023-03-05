@@ -36,10 +36,10 @@ jobs:
         shell: bash
         run: |
           if [ "${{ inputs.app }}" = "ALL" ]; then
-            echo "changes=`echo 'mongo catalogue user cart mysql shipping ratings payment dispatch web' | jo -a`" >> $GITHUB_OUTPUT
+            echo "changes=`echo 'mongo catalogue user cart mysql shipping ratings payment dispatch web' | jq -R -s -c 'split(" ")[:-1]'`" >> $GITHUB_OUTPUT
           else
             output="[]"
-            output="$(jo -a ${{ inputs.app }})"
+            output="$(echo ${{ inputs.app }} | jq -R -s -c 'split(" ")[:-1]')"
             echo "changes=${output}" >> $GITHUB_OUTPUT
           fi
   images-build:
