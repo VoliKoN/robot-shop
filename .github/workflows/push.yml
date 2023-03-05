@@ -1,19 +1,61 @@
-name: docker-compose-actions-workflow
+name: Build images on push
 on:
   push:
     branches:
       - 'master'
-    paths-ignore:
-      - 'DCOS/**'
-      - 'K8s/**'
-      - 'load-gen/**'
-      - 'OpenShift/**'
-      - 'Swarm/**'
+    paths:
+      - 'mongo/**'
+      - 'catalogue/**'
+      - 'user/**'
+      - 'cart/**'
+      - 'mysql/**'
+      - 'shipping/**'
+      - 'ratings/**'
+      - 'payment/**'
+      - 'dispatch/**'
+      - 'web/**'
 
 jobs:
-  test:
+  list-changed-images:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.images.outputs.changes }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Build the stack
-        run: docker-compose build
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+      - name: Get changed dirs
+        id: changed-dirs
+        uses: tj-actions/changed-files@v35
+        with:
+          dir_names: "true"
+          dir_names_exclude_root: "true"
+          dir_names_max_depth: "1"
+          files: |
+            mongo/**
+            catalogue/**
+            user/**
+            cart/**
+            mysql/**
+            shipping/**
+            ratings/**
+            payment/**
+            dispatch/**
+            web/**
+
+      - name: List all changed images
+        id: images
+        run: |
+          echo "changes=`echo ${{ steps.changed-dirs.outputs.all_changed_files }} | jq -R -s -c 'split(" ")[:-1]'`" >> $GITHUB_OUTPUT
+          for dir in ${{ steps.changed-dirs.outputs.all_changed_files }}; do
+            echo "$dir $REPO/rs-$dir:$TAG"
+          done
+
+  images-build:
+    uses: VoliKoN/robot-shop/.github/workflows/build-images.yml@master
+    if: needs.list-changed-images.outputs.matrix != '[]'
+    needs: ["list-changed-images"]
+    with:
+      imagesToBuild: "${{ needs.list-changed-images.outputs.matrix }}"
+      pushImages: "true"
+    secrets: inherit
