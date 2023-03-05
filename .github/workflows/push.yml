@@ -52,7 +52,7 @@ jobs:
       - name: List all changed images
         id: images
         run: |
-          echo "changes=`echo ${{ steps.changed-dirs.outputs.all_changed_files }} | jq -R -s -c 'split(" ")[:-1]'`" >> $GITHUB_OUTPUT
+          echo "changes=`echo ${{ steps.changed-dirs.outputs.all_changed_files }} | jq -Rc 'split(" ")'`" >> $GITHUB_OUTPUT
           for dir in ${{ steps.changed-dirs.outputs.all_changed_files }}; do
             echo "$dir $REPO/rs-$dir:$TAG"
           done
