@@ -47,7 +47,7 @@ jobs:
         id: release
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ${{ matrix.image }}
           file: Dockerfile
           push: ${{ inputs.pushImages == 'true' }}
           tags: |-
