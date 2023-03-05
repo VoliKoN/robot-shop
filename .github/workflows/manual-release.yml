@@ -37,7 +37,7 @@ jobs:
             echo "changes=$output" >> $GITHUB_OUTPUT
           else
             output="[]"
-            output="$(echo ${{ inputs.app }} | jq -Rc 'split(" ")'
+            output=$(echo ${{ inputs.app }} | jq -Rc 'split(" ")')
             echo "changes=${output}" >> $GITHUB_OUTPUT
           fi
           echo $output
