@@ -58,7 +58,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ${{ matrix.image }}
-          file: Dockerfile
           push: ${{ inputs.pushImages == 'true' }}
           tags: |-
             ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/rs-${{ matrix.image }}:${{ steps.tags.outputs.version_tag }}
