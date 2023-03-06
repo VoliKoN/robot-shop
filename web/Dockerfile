@@ -9,7 +9,7 @@ ENV CATALOGUE_HOST=catalogue \
     CART_HOST=cart \
     SHIPPING_HOST=shipping \
     PAYMENT_HOST=payment \
-    RATINGS_HOST=ratings \
+    RATINGS_HOST=ratings-nginx \
     INSTANA_SERVICE_NAME=nginx-web
 
 # Instana tracing

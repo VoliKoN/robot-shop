@@ -53,16 +53,49 @@ jobs:
           echo "version_tag=$(grep -oP '(?<=TAG=).*' .env)" >> $GITHUB_OUTPUT
           echo "version_timestamp=$(date +'%s')" >> $GITHUB_OUTPUT
 
-      - name: Build all platforms
+          # If 2 dockerfiles exist
+          if [ `ls ${{ matrix.image }}/Dockerfile* | wc -l` = 2 ]; then
+            dockerfile=$(ls ${{ matrix.image }}/Dockerfile* | sed -n '1 p')
+            image=${{ matrix.image }}-`echo $dockerfile | awk -F "-" '{print $NF}'`
+            sdockerfile=$(ls ${{ matrix.image }}/Dockerfile* | sed -n '2 p')
+            simage=${{ matrix.image }}-`echo $sdockerfile | awk -F "-" '{print $NF}'`
+            echo "second_dockerfile=$sdockerfile" >> $GITHUB_OUTPUT
+            echo "second_image=$simage" >> $GITHUB_OUTPUT
+          else
+            image=${{ matrix.image }}
+            dockerfile=Dockerfile
+            echo "second_dockerfile=" >> $GITHUB_OUTPUT
+            echo "second_image=" >> $GITHUB_OUTPUT
+          fi
+          echo "first_dockerfile=$dockerfile" >> $GITHUB_OUTPUT
+          echo "first_image=$image" >> $GITHUB_OUTPUT
+
+      - name: Build and push image
         id: release
         uses: docker/build-push-action@v3
         with:
           context: ${{ matrix.image }}
+          file: ${{ steps.tags.outputs.first_dockerfile }}
           push: ${{ inputs.pushImages == 'true' }}
           tags: |-
-            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/rs-${{ matrix.image }}:${{ steps.tags.outputs.version_tag }}
-            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/rs-${{ matrix.image }}:${{ steps.tags.outputs.version_timestamp }}
-            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/rs-${{ matrix.image }}:latest
+            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/rs-${{ steps.tags.outputs.first_image }}:${{ steps.tags.outputs.version_tag }}
+            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/rs-${{ steps.tags.outputs.first_image }}:${{ steps.tags.outputs.version_timestamp }}
+            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/rs-${{ steps.tags.outputs.first_image }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      
+      - name: Build and push secondery image
+        id: release-secondery
+        uses: docker/build-push-action@v3
+        if: ${{ steps.tags.outputs.second_image != '' }}
+        with:
+          context: ${{ matrix.image }}
+          file: ${{ steps.tags.outputs.second_dockerfile }}
+          push: ${{ inputs.pushImages == 'true' }}
+          tags: |-
+            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/rs-${{ steps.tags.outputs.second_image }}:${{ steps.tags.outputs.version_tag }}
+            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/rs-${{ steps.tags.outputs.second_image }}:${{ steps.tags.outputs.version_timestamp }}
+            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/rs-${{ steps.tags.outputs.second_image }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
       

@@ -96,23 +96,34 @@ services:
       retries: 3
     logging:
       <<: *logging
-  ratings:
+  ratings-php:
     build:
       context: ratings
-    image: ${REPO}/rs-ratings:${TAG}
+      dockerfile: ratings/Dockerfile-php
+    image: ${REPO}/rs-ratings-php:${TAG}
     environment:
       APP_ENV: prod
     networks:
       - robot-shop
     depends_on:
       - mysql
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/_health"]
-      interval: 10s
-      timeout: 10s
-      retries: 3
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost/_health"]
+    #   interval: 10s
+    #   timeout: 10s
+    #   retries: 3
     logging:
       <<: *logging
+  ratings-nginx:
+    image: ${REPO}/rs-ratings-nginx:test
+    build:
+      context: ratings
+      dockerfile: ratings/Dockerfile-nginx:${TAG}
+    depends_on:
+      - mysql
+      - ratings-php
+    networks:
+      - robot-shop
   payment:
     build:
       context: payment
