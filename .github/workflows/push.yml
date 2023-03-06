@@ -20,6 +20,7 @@ on:
       - 'payment/**'
       - 'dispatch/**'
       - 'web/**'
+      - 'web-proxy/**'
 
 jobs:
   list-changed-images:
@@ -48,6 +49,7 @@ jobs:
             payment/**
             dispatch/**
             web/**
+            web-proxy/**
 
       - name: List all changed images
         id: images

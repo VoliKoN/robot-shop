@@ -33,7 +33,7 @@ jobs:
         shell: bash
         run: |
           if [ "${{ inputs.app }}" = "ALL" ]; then
-            output=$(echo "mongo catalogue user cart mysql shipping ratings payment dispatch web" | jq -Rc 'split(" ")')
+            output=$(echo "mongo catalogue user cart mysql shipping ratings payment dispatch web web-proxy" | jq -Rc 'split(" ")')
             echo "changes=$output" >> $GITHUB_OUTPUT
           else
             output="[]"
