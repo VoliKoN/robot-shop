@@ -1,22 +1,9 @@
 FROM nginx:1.21.6-alpine
 
-RUN apk add --no-cache bash curl
+RUN apk add --no-cache curl
 
 EXPOSE 8080
 
-ENV CATALOGUE_HOST=catalogue \
-    USER_HOST=user \
-    CART_HOST=cart \
-    SHIPPING_HOST=shipping \
-    PAYMENT_HOST=payment \
-    RATINGS_HOST=ratings-nginx \
-    INSTANA_SERVICE_NAME=nginx-web
 
-# Instana tracing
-# COPY --from=build /instana/*.so /tmp/
-
-COPY entrypoint.sh /root/
-ENTRYPOINT ["/root/entrypoint.sh"]
-
-COPY default.conf.template /etc/nginx/conf.d/default.conf.template
+COPY default.conf /etc/nginx/conf.d/default.conf
 COPY static /usr/share/nginx/html

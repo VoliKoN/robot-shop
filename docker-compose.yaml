@@ -115,10 +115,10 @@ services:
     logging:
       <<: *logging
   ratings-nginx:
-    image: ${REPO}/rs-ratings-nginx:test
+    image: ${REPO}/rs-ratings-nginx:${TAG}
     build:
       context: ratings
-      dockerfile: ratings/Dockerfile-nginx:${TAG}
+      dockerfile: ratings/Dockerfile-nginx
     depends_on:
       - mysql
       - ratings-php
@@ -155,10 +155,20 @@ services:
   web:
     build:
       context: web
-      # args:
-      #   # agent key to download tracing libs
-      #   KEY: ${INSTANA_AGENT_KEY}
     image: ${REPO}/rs-web:${TAG}
+    networks:
+      - robot-shop
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/" ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    logging:
+      <<: *logging
+  web-proxy:
+    build:
+      context: web-proxy
+    image: ${REPO}/rs-web-proxy:${TAG}
     depends_on:
       - catalogue
       - user
@@ -173,13 +183,8 @@ services:
       interval: 10s
       timeout: 10s
       retries: 3
-    # Uncomment to enable Instana EUM
-    # environment:
-      # INSTANA_EUM_KEY: <your eum key>
-      # INSTANA_EUM_REPORTING_URL: <your reporting url>
     logging:
       <<: *logging
 
 networks:
   robot-shop:
-
