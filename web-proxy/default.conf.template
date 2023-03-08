@@ -74,7 +74,7 @@ server {
     }
 
     location /api/ratings/ {
-        proxy_pass http://${RATINGS_HOST}:80/;
+        proxy_pass http://${RATINGS_HOST}:8080/;
     }
 
     location / {
