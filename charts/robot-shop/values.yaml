@@ -1,0 +1,124 @@
+# Default values for robot-shop.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: 
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  host: rs.example.com
+  tls: []
+
+mongodb:
+  image:
+    repository: ghcr.io/volikon/rs-mongo
+    tag: 0.1
+  service:
+    port: 27017
+    targetPort: 27017
+
+redis:
+  image:
+    repository: redis
+    tag: 6.2-alpine
+  service:
+    port: 6379
+    targetPort: 6379
+  probe:
+    enabled: false
+
+mysql:
+  image:
+    repository: ghcr.io/volikon/rs-mysql
+    tag: 0.1
+  service:
+    port: 3306
+    targetPort: 3306
+  probe:
+    enabled: false
+
+rabbitmq:
+  image:
+    repository: rabbitmq
+    tag: 3.8-management-alpine
+  service:
+    port: 5672
+    targetPort: 5672
+  probe:
+    enabled: false
+
+web:
+  image:
+    repository: ghcr.io/volikon/rs-web
+    tag: 0.1
+
+user:
+  image:
+    repository: ghcr.io/volikon/rs-user
+    tag: 0.2
+  probe:
+    path: "/health"
+
+catalogue:
+  image:
+    repository: ghcr.io/volikon/rs-catalogue
+    tag: 0.2
+  probe:
+    path: "/health"
+
+cart:
+  image:
+    repository: ghcr.io/volikon/rs-cart
+    tag: 0.1
+  probe:
+    path: "/health"
+
+shipping:
+  image: 
+    repository: ghcr.io/volikon/rs-shipping
+    tag: 0.1
+  probe:
+    path: "/health"
+
+ratings:
+  image: 
+    repository: ghcr.io/volikon/rs-ratings-nginx
+    tag: 0.1
+  seconderyContainer:
+    name: php
+    enabled: true
+    image: 
+      repository: ghcr.io/volikon/rs-ratings-php
+      tag: 0.1
+  probe:
+    path: "/_health"
+  
+payment:
+  image: 
+    repository: ghcr.io/volikon/rs-payment
+    tag: 0.1
+  probe:
+    path: "/health"
+
+dispatch:
+  image: 
+    repository: ghcr.io/volikon/rs-dispatch
+    tag: 0.1
+  service:
+    enabled: false
+
+global:
+  env:
+    AMQP_HOST: '{{ .Release.Name }}-rabbitmq'
+    USER_HOST: '{{ .Release.Name }}-user'
+    CART_HOST: '{{ .Release.Name }}-cart'
+    CART_ENDPOINT: '{{ .Release.Name }}-cart:8080'
+    DB_HOST: '{{ .Release.Name }}-mysql'
+    CATALOGUE_HOST: '{{ .Release.Name }}-catalogue'
+    REDIS_HOST: '{{ .Release.Name }}-redis'
+    MONGO_HOST: '{{ .Release.Name }}-mongodb'
+    # ratings
+    CATALOGUE_URL: 'http://{{ .Release.Name }}-catalogue:8080'
+    PDO_URL: 'mysql:host={{ .Release.Name }}-mysql;dbname=ratings;charset=utf8mb4'
+    PHP_HOST: "127.0.0.1"

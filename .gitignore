@@ -4,3 +4,7 @@
 vendor/
 Gopkg.lock
 kubeconfig
+Chart.lock
+charts/robot-shop/charts
+
+k8s-menifests

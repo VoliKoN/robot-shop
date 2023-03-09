@@ -1,0 +1,82 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "robot-shop.fullname" . -}}
+{{- $baseName := include "robot-shop.name" . -}}
+{{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+  {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
+  {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
+  {{- end }}
+{{- end }}
+{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1
+{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "robot-shop.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ .Release.Name }}-web
+            port:
+              number: 8080
+        path: /()(.*)
+        pathType: Prefix
+      - backend:
+          service:
+            name: {{ .Release.Name }}-cart
+            port:
+              number: 8080
+        path: /api/cart(/|$)(.*)
+        pathType: Prefix
+      - backend:
+          service:
+            name: {{ .Release.Name }}-catalogue
+            port:
+              number: 8080
+        path: /api/catalogue(/|$)(.*)
+        pathType: Prefix
+      - backend:
+          service:
+            name: {{ .Release.Name }}-user
+            port:
+              number: 8080
+        path: /api/user(/|$)(.*)
+        pathType: Prefix
+      - backend:
+          service:
+            name: {{ .Release.Name }}-shipping
+            port:
+              number: 8080
+        path: /api/shipping(/|$)(.*)
+        pathType: Prefix
+      - backend:
+          service:
+            name: {{ .Release.Name }}-ratings
+            port:
+              number: 8080
+        path: /api/ratings(/|$)(.*)
+        pathType: Prefix
+      - backend:
+          service:
+            name: {{ .Release.Name }}-payment
+            port:
+              number: 8080
+        path: /api/payment(/|$)(.*)
+        pathType: Prefix
+{{- end }}
