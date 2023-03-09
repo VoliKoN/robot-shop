@@ -13,7 +13,6 @@ ingress:
 mongodb:
   image:
     repository: ghcr.io/volikon/rs-mongo
-    tag: 0.1
   service:
     port: 27017
     targetPort: 27017
@@ -31,7 +30,6 @@ redis:
 mysql:
   image:
     repository: ghcr.io/volikon/rs-mysql
-    tag: 0.1
   service:
     port: 3306
     targetPort: 3306
@@ -51,60 +49,51 @@ rabbitmq:
 web:
   image:
     repository: ghcr.io/volikon/rs-web
-    tag: 0.1
 
 user:
   image:
     repository: ghcr.io/volikon/rs-user
-    tag: 0.2
   probe:
     path: "/health"
 
 catalogue:
   image:
     repository: ghcr.io/volikon/rs-catalogue
-    tag: 0.2
   probe:
     path: "/health"
 
 cart:
   image:
     repository: ghcr.io/volikon/rs-cart
-    tag: 0.1
   probe:
     path: "/health"
 
 shipping:
   image: 
     repository: ghcr.io/volikon/rs-shipping
-    tag: 0.1
   probe:
     path: "/health"
 
 ratings:
   image: 
     repository: ghcr.io/volikon/rs-ratings-nginx
-    tag: 0.1
   seconderyContainer:
     name: php
     enabled: true
     image: 
       repository: ghcr.io/volikon/rs-ratings-php
-      tag: 0.1
   probe:
     path: "/_health"
   
 payment:
   image: 
     repository: ghcr.io/volikon/rs-payment
-    tag: 0.1
   probe:
     path: "/health"
 
 dispatch:
   image: 
     repository: ghcr.io/volikon/rs-dispatch
-    tag: 0.1
   service:
     enabled: false
 
