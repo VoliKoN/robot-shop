@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "rs-app.fullname" . }}
+  labels:
+    {{- include "rs-app.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "rs-app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "rs-app.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "rs-app.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.service.enabled }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          {{- if .Values.probe.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.probe.path | default "/" }}
+              port: http
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.probe.path | default "/" }}
+              port: http
+          {{- end }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            {{- range $k, $v := .Values.global.env }}
+            - name: {{ quote $k }}
+              value: {{ tpl $v $ | quote }}
+            {{- end }}
+        {{- if .Values.seconderyContainer.enabled }}
+        - name: {{ .Chart.Name }}-{{ .Values.seconderyContainer.name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.seconderyContainer.image.repository }}:{{ .Values.seconderyContainer.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.seconderyContainer.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.seconderyContainer.resources | nindent 12 }}
+          env:
+            {{- range $k, $v := .Values.global.env }}
+            - name: {{ quote $k }}
+              value: {{ tpl $v $ | quote }}
+            {{- end }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
