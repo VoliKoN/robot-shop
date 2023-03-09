@@ -21,6 +21,7 @@ on:
       - 'dispatch/**'
       - 'web/**'
       - 'web-proxy/**'
+      - '.env'
 
 jobs:
   list-changed-images:
@@ -54,10 +55,11 @@ jobs:
       - name: List all changed images
         id: images
         run: |
-          echo "changes=`echo ${{ steps.changed-dirs.outputs.all_changed_files }} | jq -Rc 'split(" ")'`" >> $GITHUB_OUTPUT
-          for dir in ${{ steps.changed-dirs.outputs.all_changed_files }}; do
-            echo "$dir $REPO/rs-$dir:$TAG"
-          done
+          # make a list of all folders changed to make images from
+          output=`echo ${{ steps.changed-dirs.outputs.all_changed_files }} | jq -Rc 'split(" ")'`
+          # if env file changed, make images from every folder
+          git diff --name-only HEAD HEAD~1 |grep -q ".env" && output=$(echo "mongo catalogue user cart mysql shipping ratings payment dispatch web web-proxy" | jq -Rc 'split(" ")')
+          echo "changes=$output" >> $GITHUB_OUTPUT
 
   images-build:
     uses: VoliKoN/robot-shop/.github/workflows/build-images.yml@master
