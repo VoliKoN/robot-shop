@@ -1,0 +1,25 @@
+apiVersion: v1
+entries:
+  rs-app:
+  - apiVersion: v2
+    appVersion: "0.2"
+    created: "2023-03-09T22:33:13.25904931Z"
+    description: Subchart for stateless apps in robot-shop
+    digest: 028a533c67990e663f9d29bfa9e46bd3d70ad76b9e27bd213f23a7e1e682e411
+    name: rs-app
+    type: application
+    urls:
+    - https://github.com/VoliKoN/robot-shop/releases/download/rs-app-0.1.0/rs-app-0.1.0.tgz
+    version: 0.1.0
+  rs-stateful:
+  - apiVersion: v2
+    appVersion: "0.2"
+    created: "2023-03-09T22:33:13.382166964Z"
+    description: Subchart for stateful apps in robot-shop
+    digest: de5a624d61895a42458ae66be65e54bfc1c932b4332cb11f22bbc8f6cc136346
+    name: rs-stateful
+    type: application
+    urls:
+    - https://github.com/VoliKoN/robot-shop/releases/download/rs-stateful-0.1.0/rs-stateful-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-03-09T22:33:13.382174364Z"
