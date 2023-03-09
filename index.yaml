@@ -3,6 +3,65 @@ entries:
   robot-shop:
   - apiVersion: v2
     appVersion: "0.2"
+    created: "2023-03-09T22:57:56.812701266Z"
+    dependencies:
+    - alias: mongodb
+      name: rs-stateful
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.0
+    - alias: redis
+      name: rs-stateful
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.0
+    - alias: mysql
+      name: rs-stateful
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.0
+    - alias: rabbitmq
+      name: rs-stateful
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.0
+    - alias: web
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.0
+    - alias: user
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.0
+    - alias: catalogue
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.0
+    - alias: cart
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.0
+    - alias: shipping
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.0
+    - alias: ratings
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.0
+    - alias: payment
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.0
+    - alias: dispatch
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.0
+    description: Chart for robot-shop
+    digest: d0bbf40cecc48fe41a8f32de079535ecf528457da7943fc1c47fd733e9add63e
+    name: robot-shop
+    type: application
+    urls:
+    - https://github.com/VoliKoN/robot-shop/releases/download/robot-shop-0.1.1/robot-shop-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: "0.2"
     created: "2023-03-09T22:51:05.411194013Z"
     dependencies:
     - alias: mongodb
@@ -82,4 +141,4 @@ entries:
     urls:
     - https://github.com/VoliKoN/robot-shop/releases/download/rs-stateful-0.1.0/rs-stateful-0.1.0.tgz
     version: 0.1.0
-generated: "2023-03-09T22:51:05.411198613Z"
+generated: "2023-03-09T22:57:56.812711167Z"
