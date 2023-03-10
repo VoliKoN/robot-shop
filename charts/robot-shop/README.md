@@ -4,7 +4,7 @@
 
 ---
 
-![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3](https://img.shields.io/badge/AppVersion-0.3-informational?style=flat-square)
+![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3](https://img.shields.io/badge/AppVersion-0.3-informational?style=flat-square)
 
 Chart for robot-shop
 
@@ -30,18 +30,18 @@ ingress:
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://nevoef.com/robot-shop | catalogue(rs-app) | 0.1.0 |
-| https://nevoef.com/robot-shop | cart(rs-app) | 0.1.0 |
-| https://nevoef.com/robot-shop | shipping(rs-app) | 0.1.0 |
-| https://nevoef.com/robot-shop | ratings(rs-app) | 0.1.0 |
-| https://nevoef.com/robot-shop | web(rs-app) | 0.1.0 |
-| https://nevoef.com/robot-shop | user(rs-app) | 0.1.0 |
-| https://nevoef.com/robot-shop | payment(rs-app) | 0.1.0 |
-| https://nevoef.com/robot-shop | dispatch(rs-app) | 0.1.0 |
-| https://nevoef.com/robot-shop | mongodb(rs-stateful) | 0.1.0 |
-| https://nevoef.com/robot-shop | redis(rs-stateful) | 0.1.0 |
-| https://nevoef.com/robot-shop | mysql(rs-stateful) | 0.1.0 |
-| https://nevoef.com/robot-shop | rabbitmq(rs-stateful) | 0.1.0 |
+| https://nevoef.com/robot-shop | catalogue(rs-app) | 0.1.1 |
+| https://nevoef.com/robot-shop | cart(rs-app) | 0.1.1 |
+| https://nevoef.com/robot-shop | shipping(rs-app) | 0.1.1 |
+| https://nevoef.com/robot-shop | ratings(rs-app) | 0.1.1 |
+| https://nevoef.com/robot-shop | web(rs-app) | 0.1.1 |
+| https://nevoef.com/robot-shop | user(rs-app) | 0.1.1 |
+| https://nevoef.com/robot-shop | payment(rs-app) | 0.1.1 |
+| https://nevoef.com/robot-shop | dispatch(rs-app) | 0.1.1 |
+| https://nevoef.com/robot-shop | mongodb(rs-stateful) | 0.1.1 |
+| https://nevoef.com/robot-shop | redis(rs-stateful) | 0.1.1 |
+| https://nevoef.com/robot-shop | mysql(rs-stateful) | 0.1.1 |
+| https://nevoef.com/robot-shop | rabbitmq(rs-stateful) | 0.1.1 |
 
 ## Values
 
@@ -64,6 +64,7 @@ ingress:
 | global.env.PHP_HOST | string | `"127.0.0.1"` |  |
 | global.env.REDIS_HOST | string | `"{{ .Release.Name }}-redis"` |  |
 | global.env.USER_HOST | string | `"{{ .Release.Name }}-user"` |  |
+| global.imageTag | float | `0.3` |  |
 | ingress.annotations | object | `{"nginx.ingress.kubernetes.io/rewrite-target":"/$2"}` | ingress `rewrite-target` is needed |
 | ingress.className | string | `""` |  |
 | ingress.enabled | bool | `true` |  |

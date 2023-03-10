@@ -1,3 +1,19 @@
+global:
+  imageTag: 0.3
+  env:
+    AMQP_HOST: '{{ .Release.Name }}-rabbitmq'
+    USER_HOST: '{{ .Release.Name }}-user'
+    CART_HOST: '{{ .Release.Name }}-cart'
+    CART_ENDPOINT: '{{ .Release.Name }}-cart:8080'
+    DB_HOST: '{{ .Release.Name }}-mysql'
+    CATALOGUE_HOST: '{{ .Release.Name }}-catalogue'
+    REDIS_HOST: '{{ .Release.Name }}-redis'
+    MONGO_HOST: '{{ .Release.Name }}-mongodb'
+    # ratings
+    CATALOGUE_URL: 'http://{{ .Release.Name }}-catalogue:8080'
+    PDO_URL: 'mysql:host={{ .Release.Name }}-mysql;dbname=ratings;charset=utf8mb4'
+    PHP_HOST: "127.0.0.1"
+
 ingress:
   enabled: true
   className: ""
@@ -93,18 +109,3 @@ dispatch:
     repository: ghcr.io/volikon/rs-dispatch
   service:
     enabled: false
-
-global:
-  env:
-    AMQP_HOST: '{{ .Release.Name }}-rabbitmq'
-    USER_HOST: '{{ .Release.Name }}-user'
-    CART_HOST: '{{ .Release.Name }}-cart'
-    CART_ENDPOINT: '{{ .Release.Name }}-cart:8080'
-    DB_HOST: '{{ .Release.Name }}-mysql'
-    CATALOGUE_HOST: '{{ .Release.Name }}-catalogue'
-    REDIS_HOST: '{{ .Release.Name }}-redis'
-    MONGO_HOST: '{{ .Release.Name }}-mongodb'
-    # ratings
-    CATALOGUE_URL: 'http://{{ .Release.Name }}-catalogue:8080'
-    PDO_URL: 'mysql:host={{ .Release.Name }}-mysql;dbname=ratings;charset=utf8mb4'
-    PHP_HOST: "127.0.0.1"

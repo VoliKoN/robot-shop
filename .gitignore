@@ -6,5 +6,6 @@ Gopkg.lock
 kubeconfig
 Chart.lock
 charts/robot-shop/charts
+*.pyc
 
 k8s-menifests
