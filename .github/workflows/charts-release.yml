@@ -66,7 +66,7 @@ jobs:
       - name: Wait for deploy
         uses: fountainhead/action-wait-for-check@v1.1.0
         if: ${{ steps.auto-commit-subcharts.outputs.changes_detected }}
-        id: wait-for-deploy
+        id: wait-for-deploy-subcharts
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ steps.auto-commit-subcharts.outputs.commit_hash }}
@@ -99,7 +99,7 @@ jobs:
       - name: Wait for deploy
         uses: fountainhead/action-wait-for-check@v1.1.0
         if: ${{ steps.auto-commit-chart.outputs.changes_detected }}
-        id: wait-for-deploy
+        id: wait-for-deploy-chart
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ steps.auto-commit-chart.outputs.commit_hash }}
