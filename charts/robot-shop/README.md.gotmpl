@@ -1,0 +1,32 @@
+<p align="center">
+    <img src="https://github.com/VoliKoN/robot-shop/raw/master/web/static/media/stan.png" height="150" alt="robot-shop logo">
+</p>
+
+---
+
+{{ template "chart.deprecationWarning" . }}
+
+{{ template "chart.badgesSection" . }}
+
+{{ template "chart.description" . }}
+
+{{ template "chart.homepageLine" . }}
+
+## Example values to get started:
+
+```yaml
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: 
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  host: shop.example.com
+```
+
+
+{{ template "chart.sourcesSection" . }}
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}
