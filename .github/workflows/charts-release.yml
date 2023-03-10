@@ -10,29 +10,99 @@ on:
     paths:
       - "charts/**"
 
-permissions:
-  contents: write
-  packages: write
+env:
+  HELM_VERSION: 3.11.1
 
 jobs:
   release-charts:
     name: Release charts
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout
+      - name: Checkout charts branch
         uses: actions/checkout@v3
         with:
+          path: "src"
           fetch-depth: 0
 
-      - name: Configure Git
-        run: |
-          git config --global user.name "$GITHUB_ACTOR"
-          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
-        
-      - name: Set up Helm
-        uses: azure/setup-helm@v3.5
-
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.5.0
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v3
+        with:
+          path: "dest"
+          ref: "gh-pages"
+          fetch-depth: 0
+      
+      - name: Install Kubernetes tools
+        uses: yokawasa/action-setup-kube-tools@v0.9.3
+        with:
+          setup-tools: |
+            helmv3
+          helm: "${{ env.HELM_VERSION }}"
+      
+      - name: Package Helm Subcharts
+        shell: bash
         env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          SRC_DIR: "src/charts"
+          DEST_DIR: "dest/charts"
+        run: |
+          helm package "${SRC_DIR}/rs-app" --dependency-update --destination "${DEST_DIR}"
+          helm package "${SRC_DIR}/rs-stateful" --dependency-update --destination "${DEST_DIR}"
+
+      - name: Update chart index
+        shell: bash
+        working-directory: dest
+        run: |
+          helm repo index . --url https://nevoef.com/robot-shop
+
+      - name: Commit changes of subcharts
+        uses: stefanzweifel/git-auto-commit-action@v4
+        id: auto-commit-subcharts
+        with:
+          repository: dest
+          branch: gh-pages
+          commit_message: Automated Subcharts Update
+          file_pattern: 'index.yaml charts/*.tgz'
+          disable_globbing: true
+
+      - name: Wait for deploy
+        uses: fountainhead/action-wait-for-check@v1.1.0
+        if: ${{ steps.auto-commit-subcharts.outputs.changes_detected }}
+        id: wait-for-deploy
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ steps.auto-commit-subcharts.outputs.commit_hash }}
+          checkName: deploy
+
+      - name: Package Helm Chart
+        shell: bash
+        env:
+          SRC_DIR: "src/charts"
+          DEST_DIR: "dest/charts"
+        run: |
+          helm package "${SRC_DIR}/robot-shop" --dependency-update --destination "${DEST_DIR}"
+
+      - name: Update chart index
+        shell: bash
+        working-directory: dest
+        run: |
+          helm repo index . --url https://nevoef.com/robot-shop
+
+      - name: Commit changes of chart
+        uses: stefanzweifel/git-auto-commit-action@v4
+        id: auto-commit-chart
+        with:
+          repository: dest
+          branch: gh-pages
+          commit_message: Automated Chart Update
+          file_pattern: 'index.yaml charts/*.tgz'
+          disable_globbing: true
+
+      - name: Wait for deploy
+        uses: fountainhead/action-wait-for-check@v1.1.0
+        if: ${{ steps.auto-commit-chart.outputs.changes_detected }}
+        id: wait-for-deploy
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ steps.auto-commit-chart.outputs.commit_hash }}
+          checkName: deploy
+
+
