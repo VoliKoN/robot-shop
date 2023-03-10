@@ -28,8 +28,8 @@ PAYMENT_GATEWAY = os.getenv('PAYMENT_GATEWAY', 'https://paypal.com/')
 # Prometheus
 PromMetrics = {}
 PromMetrics['SOLD_COUNTER'] = Counter('sold_count', 'Running count of items sold')
-PromMetrics['AUS'] = Histogram('units_sold', 'Avergae Unit Sale', buckets=(1, 2, 5, 10, 100))
-PromMetrics['AVS'] = Histogram('cart_value', 'Avergae Value Sale', buckets=(100, 200, 500, 1000, 2000, 5000, 10000))
+PromMetrics['AUS'] = Histogram('units_sold', 'Average Unit Sale', buckets=(1, 2, 5, 10, 100))
+PromMetrics['AVS'] = Histogram('cart_value', 'Average Value Sale', buckets=(100, 200, 500, 1000, 2000, 5000, 10000))
 
 
 @app.errorhandler(Exception)
@@ -79,15 +79,15 @@ def pay(id):
         app.logger.warn('cart not valid')
         return 'cart not valid', 400
 
-    # dummy call to payment gateway, hope they dont object
-    try:
-        req = requests.get(PAYMENT_GATEWAY)
-        app.logger.info('{} returned {}'.format(PAYMENT_GATEWAY, req.status_code))
-    except requests.exceptions.RequestException as err:
-        app.logger.error(err)
-        return str(err), 500
-    if req.status_code != 200:
-        return 'payment error', req.status_code
+    # # dummy call to payment gateway, hope they dont object
+    # try:
+    #     req = requests.get(PAYMENT_GATEWAY)
+    #     app.logger.info('{} returned {}'.format(PAYMENT_GATEWAY, req.status_code))
+    # except requests.exceptions.RequestException as err:
+    #     app.logger.error(err)
+    #     return str(err), 500
+    # if req.status_code != 200:
+    #     return 'payment error', req.status_code
 
     # Prometheus
     # items purchased

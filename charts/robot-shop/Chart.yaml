@@ -6,8 +6,8 @@ sources:
   - https://github.com/VoliKoN/robot-shop
 type: application
 
-version: 0.1.1
-appVersion: "0.2"
+version: 0.1.2
+appVersion: "0.3"
 icon: https://github.com/VoliKoN/robot-shop/raw/master/web/static/media/stan.png
 
 maintainers:
