@@ -32,7 +32,7 @@ Build all the images.
 docker compose build
 ```
 
-## Run Locally
+## Run Locally Using Compose
 
 You can run it locally for testing.
 
@@ -56,26 +56,15 @@ docker-compose -f docker-compose.yaml -f docker-compose-load.yaml up
 
 ## Kubernetes
 
-You can run Kubernetes locally using [minikube](https://github.com/kubernetes/minikube) or on one of the many cloud providers.
+The Docker container images are all available on [GHCR Registry](https://github.com/VoliKoN?tab=packages&repo_name=robot-shop).
 
-The Docker container images are all available on [Docker Hub](https://hub.docker.com/u/robotshop/).
-
-Install Stan's Robot Shop to your Kubernetes cluster using the [Helm](K8s/helm/README.md) chart.
-
-To deploy the Instana agent to Kubernetes, just use the [helm](https://github.com/instana/helm-charts) chart.
+Install the Robot Shop to your Kubernetes cluster using the [robot-shop](charts/robot-shop/README.md) helm chart.
 
 ## Accessing the Store
 
-If you are running the store locally via *docker-compose up* then, the store front is available on localhost port 8080 [http://localhost:8080](http://localhost:8080/)
+If you are running the store locally via *docker compose up* then, the store front is available on localhost port 8080 [http://localhost:8080](http://localhost:8080/)
 
-If you are running the store on Kubernetes via minikube then, find the IP address of Minikube and the Node Port of the web service.
-
-```shell
-minikube ip
-kubectl get svc web
-```
-
-If you are using a cloud Kubernetes / Openshift / Mesosphere then it will be available on the load balancer of that system.
+If you are running the store on Kubernetes the store will be available on the ingress host you configured.
 
 ## Load Generation
 
