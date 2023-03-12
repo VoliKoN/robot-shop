@@ -3,7 +3,7 @@ entries:
   robot-shop:
   - apiVersion: v2
     appVersion: "0.5"
-    created: "2023-03-12T10:10:22.29627928Z"
+    created: "2023-03-12T10:32:17.77422168Z"
     dependencies:
     - name: mongodb
       repository: https://charts.bitnami.com/bitnami
@@ -65,7 +65,7 @@ entries:
     version: 0.1.5
   - apiVersion: v2
     appVersion: "0.3"
-    created: "2023-03-12T10:10:22.272858461Z"
+    created: "2023-03-12T10:32:17.71006856Z"
     dependencies:
     - alias: mongodb
       name: rs-stateful
@@ -132,23 +132,12 @@ entries:
   rs-app:
   - apiVersion: v2
     appVersion: "0.2"
-    created: "2023-03-12T10:10:22.29677568Z"
+    created: "2023-03-12T10:32:17.774986385Z"
     description: Subchart for stateless apps in robot-shop
-    digest: 3eb32b9063edbfd2233723c421f7b553c00ed86a667754a6bd287ee30553ffee
+    digest: 1edcf662a5933b4c60aba23081a6f2efc442bd58cf74898f718092dbbe9de4b2
     name: rs-app
     type: application
     urls:
     - https://nevoef.com/robot-shop/charts/rs-app-0.1.1.tgz
     version: 0.1.1
-  rs-stateful:
-  - apiVersion: v2
-    appVersion: "0.2"
-    created: "2023-03-12T10:10:22.297383181Z"
-    description: Subchart for stateful apps in robot-shop
-    digest: 3bb028280133a9964f32012364c7f70b64da35644fa485bf02d8155f1301579e
-    name: rs-stateful
-    type: application
-    urls:
-    - https://nevoef.com/robot-shop/charts/rs-stateful-0.1.1.tgz
-    version: 0.1.1
-generated: "2023-03-12T10:10:22.270856059Z"
+generated: "2023-03-12T10:32:17.707707345Z"
