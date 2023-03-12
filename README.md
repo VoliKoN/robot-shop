@@ -54,11 +54,18 @@ If you want to fire up some load as well:
 docker-compose -f docker-compose.yaml -f docker-compose-load.yaml up
 ```
 
-## Kubernetes
+## Kubernetes using Helm
 
 The Docker container images are all available on [GHCR Registry](https://github.com/VoliKoN?tab=packages&repo_name=robot-shop).
 
 Install the Robot Shop to your Kubernetes cluster using the [robot-shop](charts/robot-shop/README.md) helm chart.
+
+```shell
+helm repo add robot-shop http://nevoef.com/robot-shop
+helm install my-release robot-shop/robot-shop
+```
+
+> **Tip**: Check how to configure the ingress properly on the chart [Readme](charts/robot-shop/README.md#example-values-to-get-started)
 
 ## Accessing the Store
 
