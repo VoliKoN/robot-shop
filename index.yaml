@@ -3,7 +3,7 @@ entries:
   robot-shop:
   - apiVersion: v2
     appVersion: "0.5"
-    created: "2023-03-12T10:32:17.77422168Z"
+    created: "2023-03-12T10:33:23.21556727Z"
     dependencies:
     - name: mongodb
       repository: https://charts.bitnami.com/bitnami
@@ -50,7 +50,7 @@ entries:
       repository: https://nevoef.com/robot-shop
       version: 0.1.1
     description: Chart for robot-shop
-    digest: 9844c578264e6bbb596dbb0e87274f6557c8d2d3f91835d4db55827f109086f4
+    digest: b2037b88a3ef7110f7ba32f93dee6d1adff32d79c5afe3c6609ca9802124ced9
     home: https://github.com/VoliKoN/robot-shop
     icon: https://github.com/VoliKoN/robot-shop/raw/master/web/static/media/stan.png
     maintainers:
@@ -65,7 +65,7 @@ entries:
     version: 0.1.5
   - apiVersion: v2
     appVersion: "0.3"
-    created: "2023-03-12T10:32:17.71006856Z"
+    created: "2023-03-12T10:33:23.18833641Z"
     dependencies:
     - alias: mongodb
       name: rs-stateful
@@ -132,7 +132,7 @@ entries:
   rs-app:
   - apiVersion: v2
     appVersion: "0.2"
-    created: "2023-03-12T10:32:17.774986385Z"
+    created: "2023-03-12T10:33:23.216150273Z"
     description: Subchart for stateless apps in robot-shop
     digest: 1edcf662a5933b4c60aba23081a6f2efc442bd58cf74898f718092dbbe9de4b2
     name: rs-app
@@ -140,4 +140,4 @@ entries:
     urls:
     - https://nevoef.com/robot-shop/charts/rs-app-0.1.1.tgz
     version: 0.1.1
-generated: "2023-03-12T10:32:17.707707345Z"
+generated: "2023-03-12T10:33:23.186039296Z"
