@@ -45,7 +45,7 @@ jobs:
           DEST_DIR: "dest/charts"
         run: |
           helm package "${SRC_DIR}/rs-app" --dependency-update --destination "${DEST_DIR}"
-          helm package "${SRC_DIR}/rs-stateful" --dependency-update --destination "${DEST_DIR}"
+          # helm package "${SRC_DIR}/rs-stateful" --dependency-update --destination "${DEST_DIR}"
 
       - name: Update chart index
         shell: bash

@@ -1,5 +1,5 @@
 global:
-  imageTag: 0.3
+  imageTag: 0.5
   env:
     AMQP_HOST: '{{ .Release.Name }}-rabbitmq'
     USER_HOST: '{{ .Release.Name }}-user'
@@ -7,7 +7,7 @@ global:
     CART_ENDPOINT: '{{ .Release.Name }}-cart:8080'
     DB_HOST: '{{ .Release.Name }}-mysql'
     CATALOGUE_HOST: '{{ .Release.Name }}-catalogue'
-    REDIS_HOST: '{{ .Release.Name }}-redis'
+    REDIS_HOST: '{{ .Release.Name }}-redis-master'
     MONGO_HOST: '{{ .Release.Name }}-mongodb'
     # ratings
     CATALOGUE_URL: 'http://{{ .Release.Name }}-catalogue:8080'
@@ -25,39 +25,53 @@ ingress:
 
 mongodb:
   image:
-    repository: ghcr.io/volikon/rs-mongo
-  service:
-    port: 27017
-    targetPort: 27017
+    registry: ghcr.io
+    repository: volikon/rs-mongo
+    tag: 0.5
+  persistence:
+    enabled: false
+  serviceAccount:
+    create: false
+  auth:
+    enabled: false
 
 redis:
-  image:
-    repository: redis
-    tag: 6.2-alpine
-  service:
-    port: 6379
-    targetPort: 6379
-  probe:
+  architecture: standalone
+  master:
+    persistence:
+      enabled: false
+  serviceAccount:
+    create: false
+  auth:
     enabled: false
 
 mysql:
   image:
-    repository: ghcr.io/volikon/rs-mysql
-  service:
-    port: 3306
-    targetPort: 3306
-  probe:
-    enabled: false
+    registry: ghcr.io
+    repository: volikon/rs-mysql
+    tag: 0.5
+  auth:
+    database: cities
+    username: shipping
+    password: secret
+  primary:
+    persistence:
+      enabled: false
+  serviceAccount:
+    create: false
 
 rabbitmq:
-  image:
-    repository: rabbitmq
-    tag: 3.8-management-alpine
-  service:
-    port: 5672
-    targetPort: 5672
-  probe:
+  auth: 
+    username: guest
+    password: guest
+  clustering:
     enabled: false
+  persistence:
+    enabled: false
+  serviceAccount:
+    create: false
+  rbac:
+    create: false
 
 web:
   image:

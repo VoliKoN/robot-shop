@@ -1,9 +1,0 @@
-apiVersion: v2
-name: rs-stateful
-description: Subchart for stateful apps in robot-shop
-
-type: application
-
-version: 0.1.1
-
-appVersion: "0.2"

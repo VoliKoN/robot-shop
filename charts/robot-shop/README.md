@@ -4,7 +4,7 @@
 
 ---
 
-![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3](https://img.shields.io/badge/AppVersion-0.3-informational?style=flat-square)
+![Version: 0.1.5](https://img.shields.io/badge/Version-0.1.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.5](https://img.shields.io/badge/AppVersion-0.5-informational?style=flat-square)
 
 Chart for robot-shop
 
@@ -30,18 +30,18 @@ ingress:
 
 | Repository | Name | Version |
 |------------|------|---------|
+| https://charts.bitnami.com/bitnami | mongodb | 13.9.0 |
+| https://charts.bitnami.com/bitnami | mysql | 9.6.0 |
+| https://charts.bitnami.com/bitnami | rabbitmq | 11.10.3 |
+| https://charts.bitnami.com/bitnami | redis | 17.8.4 |
+| https://nevoef.com/robot-shop | web(rs-app) | 0.1.1 |
+| https://nevoef.com/robot-shop | user(rs-app) | 0.1.1 |
 | https://nevoef.com/robot-shop | catalogue(rs-app) | 0.1.1 |
 | https://nevoef.com/robot-shop | cart(rs-app) | 0.1.1 |
 | https://nevoef.com/robot-shop | shipping(rs-app) | 0.1.1 |
 | https://nevoef.com/robot-shop | ratings(rs-app) | 0.1.1 |
-| https://nevoef.com/robot-shop | web(rs-app) | 0.1.1 |
-| https://nevoef.com/robot-shop | user(rs-app) | 0.1.1 |
 | https://nevoef.com/robot-shop | payment(rs-app) | 0.1.1 |
 | https://nevoef.com/robot-shop | dispatch(rs-app) | 0.1.1 |
-| https://nevoef.com/robot-shop | mongodb(rs-stateful) | 0.1.1 |
-| https://nevoef.com/robot-shop | redis(rs-stateful) | 0.1.1 |
-| https://nevoef.com/robot-shop | mysql(rs-stateful) | 0.1.1 |
-| https://nevoef.com/robot-shop | rabbitmq(rs-stateful) | 0.1.1 |
 
 ## Values
 
@@ -62,38 +62,45 @@ ingress:
 | global.env.MONGO_HOST | string | `"{{ .Release.Name }}-mongodb"` |  |
 | global.env.PDO_URL | string | `"mysql:host={{ .Release.Name }}-mysql;dbname=ratings;charset=utf8mb4"` |  |
 | global.env.PHP_HOST | string | `"127.0.0.1"` |  |
-| global.env.REDIS_HOST | string | `"{{ .Release.Name }}-redis"` |  |
+| global.env.REDIS_HOST | string | `"{{ .Release.Name }}-redis-master"` |  |
 | global.env.USER_HOST | string | `"{{ .Release.Name }}-user"` |  |
-| global.imageTag | float | `0.3` |  |
+| global.imageTag | float | `0.5` |  |
 | ingress.annotations | object | `{"nginx.ingress.kubernetes.io/rewrite-target":"/$2"}` | ingress `rewrite-target` is needed |
 | ingress.className | string | `""` |  |
 | ingress.enabled | bool | `true` |  |
 | ingress.host | string | `"rs.example.com"` |  |
 | ingress.tls | list | `[]` |  |
-| mongodb.image.repository | string | `"ghcr.io/volikon/rs-mongo"` |  |
-| mongodb.service.port | int | `27017` |  |
-| mongodb.service.targetPort | int | `27017` |  |
-| mysql.image.repository | string | `"ghcr.io/volikon/rs-mysql"` |  |
-| mysql.probe.enabled | bool | `false` |  |
-| mysql.service.port | int | `3306` |  |
-| mysql.service.targetPort | int | `3306` |  |
+| mongodb.auth.enabled | bool | `false` |  |
+| mongodb.image.registry | string | `"ghcr.io"` |  |
+| mongodb.image.repository | string | `"volikon/rs-mongo"` |  |
+| mongodb.image.tag | float | `0.5` |  |
+| mongodb.persistence.enabled | bool | `false` |  |
+| mongodb.serviceAccount.create | bool | `false` |  |
+| mysql.auth.database | string | `"cities"` |  |
+| mysql.auth.password | string | `"secret"` |  |
+| mysql.auth.username | string | `"shipping"` |  |
+| mysql.image.registry | string | `"ghcr.io"` |  |
+| mysql.image.repository | string | `"volikon/rs-mysql"` |  |
+| mysql.image.tag | float | `0.5` |  |
+| mysql.primary.persistence.enabled | bool | `false` |  |
+| mysql.serviceAccount.create | bool | `false` |  |
 | payment.image.repository | string | `"ghcr.io/volikon/rs-payment"` |  |
 | payment.probe.path | string | `"/health"` |  |
-| rabbitmq.image.repository | string | `"rabbitmq"` |  |
-| rabbitmq.image.tag | string | `"3.8-management-alpine"` |  |
-| rabbitmq.probe.enabled | bool | `false` |  |
-| rabbitmq.service.port | int | `5672` |  |
-| rabbitmq.service.targetPort | int | `5672` |  |
+| rabbitmq.auth.password | string | `"guest"` |  |
+| rabbitmq.auth.username | string | `"guest"` |  |
+| rabbitmq.clustering.enabled | bool | `false` |  |
+| rabbitmq.persistence.enabled | bool | `false` |  |
+| rabbitmq.rbac.create | bool | `false` |  |
+| rabbitmq.serviceAccount.create | bool | `false` |  |
 | ratings.image.repository | string | `"ghcr.io/volikon/rs-ratings-nginx"` |  |
 | ratings.probe.path | string | `"/_health"` |  |
 | ratings.seconderyContainer.enabled | bool | `true` |  |
 | ratings.seconderyContainer.image.repository | string | `"ghcr.io/volikon/rs-ratings-php"` |  |
 | ratings.seconderyContainer.name | string | `"php"` |  |
-| redis.image.repository | string | `"redis"` |  |
-| redis.image.tag | string | `"6.2-alpine"` |  |
-| redis.probe.enabled | bool | `false` |  |
-| redis.service.port | int | `6379` |  |
-| redis.service.targetPort | int | `6379` |  |
+| redis.architecture | string | `"standalone"` |  |
+| redis.auth.enabled | bool | `false` |  |
+| redis.master.persistence.enabled | bool | `false` |  |
+| redis.serviceAccount.create | bool | `false` |  |
 | shipping.image.repository | string | `"ghcr.io/volikon/rs-shipping"` |  |
 | shipping.probe.path | string | `"/health"` |  |
 | user.image.repository | string | `"ghcr.io/volikon/rs-user"` |  |
