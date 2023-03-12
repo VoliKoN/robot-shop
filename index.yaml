@@ -3,7 +3,7 @@ entries:
   robot-shop:
   - apiVersion: v2
     appVersion: "0.3"
-    created: "2023-03-10T21:21:56.19024974Z"
+    created: "2023-03-12T10:09:19.082022402Z"
     dependencies:
     - alias: mongodb
       name: rs-stateful
@@ -70,9 +70,9 @@ entries:
   rs-app:
   - apiVersion: v2
     appVersion: "0.2"
-    created: "2023-03-10T21:21:56.190741734Z"
+    created: "2023-03-12T10:09:19.082528507Z"
     description: Subchart for stateless apps in robot-shop
-    digest: f601e2d00765383c69b620eff4146b77598accd76f9081588297db3d7ce0c140
+    digest: 3eb32b9063edbfd2233723c421f7b553c00ed86a667754a6bd287ee30553ffee
     name: rs-app
     type: application
     urls:
@@ -81,7 +81,7 @@ entries:
   rs-stateful:
   - apiVersion: v2
     appVersion: "0.2"
-    created: "2023-03-10T21:21:56.191163729Z"
+    created: "2023-03-12T10:09:19.082970111Z"
     description: Subchart for stateful apps in robot-shop
     digest: 3bb028280133a9964f32012364c7f70b64da35644fa485bf02d8155f1301579e
     name: rs-stateful
@@ -89,4 +89,4 @@ entries:
     urls:
     - https://nevoef.com/robot-shop/charts/rs-stateful-0.1.1.tgz
     version: 0.1.1
-generated: "2023-03-10T21:21:56.188273663Z"
+generated: "2023-03-12T10:09:19.07943388Z"
