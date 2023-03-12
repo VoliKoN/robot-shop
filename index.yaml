@@ -2,8 +2,70 @@ apiVersion: v1
 entries:
   robot-shop:
   - apiVersion: v2
+    appVersion: "0.5"
+    created: "2023-03-12T10:10:22.29627928Z"
+    dependencies:
+    - name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.9.0
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.8.4
+    - name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.6.0
+    - name: rabbitmq
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.10.3
+    - alias: web
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.1
+    - alias: user
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.1
+    - alias: catalogue
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.1
+    - alias: cart
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.1
+    - alias: shipping
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.1
+    - alias: ratings
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.1
+    - alias: payment
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.1
+    - alias: dispatch
+      name: rs-app
+      repository: https://nevoef.com/robot-shop
+      version: 0.1.1
+    description: Chart for robot-shop
+    digest: 9844c578264e6bbb596dbb0e87274f6557c8d2d3f91835d4db55827f109086f4
+    home: https://github.com/VoliKoN/robot-shop
+    icon: https://github.com/VoliKoN/robot-shop/raw/master/web/static/media/stan.png
+    maintainers:
+    - name: Nevo
+      url: https://nevoef.com
+    name: robot-shop
+    sources:
+    - https://github.com/VoliKoN/robot-shop
+    type: application
+    urls:
+    - https://nevoef.com/robot-shop/charts/robot-shop-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
     appVersion: "0.3"
-    created: "2023-03-12T10:09:19.082022402Z"
+    created: "2023-03-12T10:10:22.272858461Z"
     dependencies:
     - alias: mongodb
       name: rs-stateful
@@ -70,7 +132,7 @@ entries:
   rs-app:
   - apiVersion: v2
     appVersion: "0.2"
-    created: "2023-03-12T10:09:19.082528507Z"
+    created: "2023-03-12T10:10:22.29677568Z"
     description: Subchart for stateless apps in robot-shop
     digest: 3eb32b9063edbfd2233723c421f7b553c00ed86a667754a6bd287ee30553ffee
     name: rs-app
@@ -81,7 +143,7 @@ entries:
   rs-stateful:
   - apiVersion: v2
     appVersion: "0.2"
-    created: "2023-03-12T10:09:19.082970111Z"
+    created: "2023-03-12T10:10:22.297383181Z"
     description: Subchart for stateful apps in robot-shop
     digest: 3bb028280133a9964f32012364c7f70b64da35644fa485bf02d8155f1301579e
     name: rs-stateful
@@ -89,4 +151,4 @@ entries:
     urls:
     - https://nevoef.com/robot-shop/charts/rs-stateful-0.1.1.tgz
     version: 0.1.1
-generated: "2023-03-12T10:09:19.07943388Z"
+generated: "2023-03-12T10:10:22.270856059Z"
